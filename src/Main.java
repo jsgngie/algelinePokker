@@ -1,9 +1,12 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class Main {
     /*
     (done)    Programm käsitleb mingit (inimlikku) tegevust, näiteks mängimist
         Programm peab kasutajalt midagi küsima (võib-olla ka korduvalt)
         Programm peaks olema kasutatav ilma, et programmi kohta oleks erilisi eelteadmisi
-        Programm peab sisaldama juhusliku suuruse kasutamist (soovitavalt klassi Random abil)
+    (done)    Programm peab sisaldama juhusliku suuruse kasutamist (soovitavalt klassi Random abil)
     (done)    Programm peab koosnema mitmest klassist (sh. peaklass)
         Programm peab olema rühmaliikmete endi kirjutatud
         Programm peab olema mõistlikult kommenteeritud.
@@ -14,8 +17,9 @@ public class Main {
     public static void main(String[] args) {
         Kaardipakk kaardipakk = new Kaardipakk();
         kaardipakk.genereeriTavaPakk();
-
-        System.out.println(kaardipakk.indexOf(new Kaart("ärtu", 4)));
-
+        Diiler diiler = new Diiler(kaardipakk);
+        diiler.alustaRaundi(4);
+        diiler.käed();
+        diiler.lisaLauale(4);
     }
 }

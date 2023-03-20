@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Kaardipakk {
@@ -19,5 +20,9 @@ public class Kaardipakk {
 
     public int indexOf(Kaart o) {
         return pakk.indexOf(o);
+    }
+
+    public List<Kaart> getPakk() {
+        return pakk;
     }
 }
