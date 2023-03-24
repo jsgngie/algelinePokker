@@ -8,7 +8,7 @@ public class Main {
         Programm peaks olema kasutatav ilma, et programmi kohta oleks erilisi eelteadmisi
     (done)    Programm peab sisaldama juhusliku suuruse kasutamist (soovitavalt klassi Random abil)
     (done)    Programm peab koosnema mitmest klassist (sh. peaklass)
-        Programm peab olema rühmaliikmete endi kirjutatud
+    (yes)     Programm peab olema rühmaliikmete endi kirjutatud
         Programm peab olema mõistlikult kommenteeritud.
         Programm ei tohiks olla liiga keeruline
         Kasutajaga suhtlemine peaks olema väga elementaarselt kujundatud. Vältida (veel) graafilist kasutajaliidest.
@@ -20,6 +20,8 @@ public class Main {
         Diiler diiler = new Diiler(kaardipakk);
         diiler.alustaRaundi(4);
         diiler.käed();
-        diiler.lisaLauale(4);
+        diiler.lisaLauale(3);
+        //kontrollin kas on kaks paari
+        System.out.println(diiler.twoPair());
     }
 }
