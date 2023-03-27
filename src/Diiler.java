@@ -31,6 +31,11 @@ public class Diiler {
         return kätes;
     }
 
+    public void resetAll() {
+        this.kätes.clear();
+        this.laual.clear();
+    }
+
     public void lisaLauale(int mitu) {
         //lisab lauale nii mitu kaarti palju vaja
         List<Kaart> pakk = kaardipakk.getPakk();
@@ -55,6 +60,17 @@ public class Diiler {
         for (int i = 0; i < kätes.size(); i++) {
             System.out.println(i + 1 + ". mängija käes on " + Arrays.toString(kätes.get(i)));
         }
+    }
+
+    public List<Kaart> eemaldaDuublid(List<Kaart> temp) {
+        for (int k = 0; k < 2; k++) {
+            for (int j = 1; j < temp.size() - 1; j++) {
+                if (temp.get(j).getTugevus() == temp.get(j + 1).getTugevus() || temp.get(j).getTugevus() == temp.get(j - 1).getTugevus()) {
+                    temp.remove(j);
+                }
+            }
+        }
+        return temp;
     }
 
     public List<Kaart> käedLauaga(int mängija) {
@@ -127,6 +143,90 @@ public class Diiler {
                     }
                 }
             }
+        }
+        return väärtused;
+    }
+
+    public List<Boolean>  threeOfAKind() {
+        List<Boolean> väärtused = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            for (int j = 0; j < temp.size()-2; j++) {
+                if(temp.get(j).getTugevus() == temp.get(j+1).getTugevus() & temp.get(j+1).getTugevus() == temp.get(j+2).getTugevus()) {
+                    väärtused.add(true);
+                    break;
+                }
+                if (j == temp.size()-3) {
+                    väärtused.add(false);
+                }
+            }
+        }
+        return väärtused;
+    }
+
+    public List<Boolean> fourOfAKind() {
+        List<Boolean> väärtused = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            for (int j = 0; j < temp.size()-3; j++) {
+                if(temp.get(j).getTugevus() == temp.get(j+1).getTugevus()
+                        & temp.get(j+1).getTugevus() == temp.get(j+2).getTugevus()
+                        & temp.get(j+2).getTugevus() == temp.get(j+3).getTugevus())
+                {
+                    väärtused.add(true);
+                    break;
+                }
+                if (j == temp.size()-4) {
+                    väärtused.add(false);
+                }
+            }
+        }
+        return väärtused;
+    }
+
+    public List<Boolean> straight() {
+        List<Boolean> väärtused = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            temp = this.eemaldaDuublid(temp);
+            if (temp.size()<5) {väärtused.add(false); continue;}
+            for (int j = 0; j < temp.size()-4; j++) {
+                if( temp.get(j).getTugevus() == temp.get(j+1).getTugevus()-1 &
+                temp.get(j+2).getTugevus()-2 == temp.get(j).getTugevus() &
+                temp.get(j+3).getTugevus()-3 == temp.get(j).getTugevus() &
+                temp.get(j+4).getTugevus()-4 == temp.get(j).getTugevus() ) {
+                    väärtused.add(true);
+                    break;
+                }
+                if(j == temp.size()-5) {
+                    väärtused.add(false);
+                }
+            }
+        }
+        return väärtused;
+    }
+
+    public List<Boolean> flush(){
+        List<Boolean> väärtused = new ArrayList<>();
+        HashMap<String, Integer> mastid = new HashMap<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            mastid.put("ärtu", 0);
+            mastid.put("ruutu", 0);
+            mastid.put("risti", 0);
+            mastid.put("poti", 0);
+            List<Kaart> temp = this.käedLauaga(i);
+            for (int j = 0; j < this.käedLauaga(i).size(); j++) {
+                mastid.put(temp.get(j).getMast(), mastid.get(temp.get(j).getMast())+1);
+            }
+            if (mastid.get("ärtu") >= 5) {
+                väärtused.add(true);
+            } else if (mastid.get("ruutu") >= 5) {
+                väärtused.add(true);
+            } else if (mastid.get("poti") >= 5) {
+                väärtused.add(true);
+            } else if (mastid.get("risti") >= 5) {
+                väärtused.add(true);
+            } else {väärtused.add(false);}
         }
         return väärtused;
     }
