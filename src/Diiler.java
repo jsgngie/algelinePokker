@@ -85,7 +85,7 @@ public class Diiler {
             Kaart tempKaart = laualeTulnudKaardid.get(i);
             temp.add(tempKaart);
         }
-        Collections.sort(temp);
+        //Collections.sort(temp);
         return temp;
     }
 

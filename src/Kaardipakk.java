@@ -6,6 +6,7 @@ public class Kaardipakk {
     private List<Kaart> pakk = new ArrayList<>();
 
     static void genereeriMast(List<Kaart> pakk, String mast) {
+        //genereerib masti kõik tugevused
         for (int i = 2; i < 15; i++) {
             pakk.add(new Kaart(mast, i));
         }

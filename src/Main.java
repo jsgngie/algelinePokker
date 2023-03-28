@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
     /*
@@ -34,6 +35,35 @@ public class Main {
                 System.out.println(diiler.käedLauaga(i) + "\n");
             }
             System.out.println(diiler.flush());
+        }
+
+        String tühik = "\n----------------\n";
+
+        //mängimise osa
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Lihtne Pokker" + tühik);
+        mäng:
+        while (true){
+            System.out.println("1. Mängu reeglid\n2. Alusta mängimist" + tühik);
+            System.out.println("Valiku tegemiseks sisestage number: ");
+
+            int vastus = scan.nextInt();
+            System.out.println(tühik);
+            switch (vastus) {
+                case 1:
+                    System.out.println("Mängu reeglid");
+                    break;
+                case 2:
+                    diiler.resetAll();
+                    diiler.alustaRaundi(4);
+                    diiler.käed();
+                    diiler.lisaLauale(5);
+                    System.out.println(diiler.flush());
+                    break;
+                case 3:
+                    break mäng;
+            }
         }
 
     }
