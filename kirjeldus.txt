@@ -1,0 +1,28 @@
+    autorite nimed;
+      Matias Jürgenson, Joosep Suuder
+      
+    projekti põhjalik kirjeldus, kus on kirjas programmi eesmärk ja selgitus programmi üldisest tööst, vajadusel lühike kasutusjuhis;
+       eesmärk - tutvustada kasutajale pokkerit
+       selgitus - kautaja saab tutvuda pokkeri võidu reeglitega, ning seejärel neid näha
+       
+    iga klassi kohta eraldi selle eesmärk ja olulisemad meetodid;
+        Main - kasutajaga suhtlemise osa
+        Kaart - kaardi objekti loomise klass ja sellelt andmete saamine
+        Kaardipakk - loob listi mis kooseb Kaardi objektist
+        Diiler - 
+        
+    projekti tegemise protsessi kirjeldus (erinevad etapid ja rühmaliikmete osalemine neis);
+        protsessi plaan sai alguses kirja pandud ja siis töötasime nende kallal kui aega oli (mida polnud palju)
+        
+    iga rühmaliikme panus (sh tehtud klassid/meetodid) ja ajakulu (orienteeruvalt);
+        Matias - kaart, kaardipakk klassid, Maini kasutaja küsimused
+               - ajakulu 6-9h
+               
+    tegemise mured (nt millistest teadmistest/oskustest tundsite projekti tegemisel puudust);
+        alguses kui kaardipakki klassi teha ei teadnud kuidas objecte omavahel võrrelda
+    
+    hinnang oma töö lõpptulemusele (millega saite hästi hakkama ja mis vajab arendamist);
+        sai lisatud pokkeri võidu viisid, vaja oleks teha panustamise süsteem
+    
+    selgitus ja/või näited, kuidas programmi osi eraldi ja programmi tervikuna testisite ehk kuidas veendusite, et programm töötab korrektselt.
+        programmi osi testisime Main klasiis
