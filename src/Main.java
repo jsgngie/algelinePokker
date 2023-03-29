@@ -6,18 +6,14 @@ import java.util.Scanner;
 public class Main {
     /* kui tulevikus edasi teha
 
-    //Kuninglik mastirida (Royal Straight Flush)
-    //Mastirida (Straight Flush)
-    //Maja (Full House)
-    //Kõrge kaart
     Üks paar (One Pair) -ile kicker
     Kaks paari (Two Pair) -ile kicker
-    ja teised täpsustavad asjad võiduolukordadeöe
+    ja teised täpsustavad asjad võiduolukordadele
 
     panustamine
     */
 
-    /* reglid
+    /* reeglid
      * mängu võitmine
      * mängu võidab see kellel on kõige tugevam käsi käes
      * käte tugevused on tegevaimast nõrgemani on järgmised
@@ -56,11 +52,11 @@ public class Main {
         if (võitjateArv > 1) {
             System.out.println("Mäng jäi viiki mängijate poolt: ");
             for (int i = 0; i < võitjateArv; i++) {
-                System.out.println(võitjateIndex.get(i));
+                System.out.println((võitjateIndex.get(i)+1) + ". mängija.");
             }
             System.out.println("viigi põhjus: ");
         } else {
-            System.out.println("Mängu võitis: " + võitjateIndex.get(0));
+            System.out.println("Mängu võitis: " + (võitjateIndex.get(0)+1) + ". mängija.");
             System.out.println("Võidu põhjus: ");
         }
     }
@@ -94,7 +90,7 @@ public class Main {
                     switch (reegel) {
                         case 1:
                             selgitused:
-                            while (true){
+                            while (true) {
                                 System.out.println("võidu selgitused\n");
                                 System.out.println("1. Nelik\n2. Mast\n3. Rida\n4. Kolmik\n5. Kaks paari\n6. Üks paar\n7. tagasi\n" + tühik);
                                 System.out.println(valik);
@@ -151,11 +147,11 @@ public class Main {
                                         break;
                                     case 7:
                                         break selgitused;
-                                    }
                                 }
+                            }
                         case 2:
                             break;
-                        }
+                    }
 
                     break;
 
@@ -170,11 +166,36 @@ public class Main {
                     diiler.käed();
                     diiler.lisaLauale(5);
 
-                    //hakkab järjest võidu olukordi vaatama
+                    /* test tsükkel ära eemalda pls
+                    while (!diiler.royalStraightFlush().contains(true)) {
+                        diiler.käed();
+                        diiler.resetAll();
+                        diiler.alustaRaundi(4);
+                        diiler.lisaLauale(5);
+                        for (int i = 0; i < 4; i++) {
+                            System.out.println(diiler.käedLauaga(i));
+                        }
+                        System.out.println(diiler.royalStraightFlush());
+                    } */
                     if (diiler.fourOfAKind().contains(true)) {
                         List<Boolean> võitjad = diiler.fourOfAKind();
                         väljastaVõitja(võitjad);
+                        System.out.println("Kuninglik mastirida");
+
+                    } else if (diiler.straightFlush().contains(true)) {
+                        List<Boolean> võitjad = diiler.fourOfAKind();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Mastirida");
+
+                    } else if (diiler.fourOfAKind().contains(true)) {
+                        List<Boolean> võitjad = diiler.fourOfAKind();
+                        väljastaVõitja(võitjad);
                         System.out.println("Nelik");
+
+                    } else if (diiler.fullHouse().contains(true)) {
+                        List<Boolean> võitjad = diiler.fullHouse();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Maja");
 
                     } else if (diiler.flush().contains(true)) {
                         List<Boolean> võitjad = diiler.flush();
@@ -203,20 +224,6 @@ public class Main {
                     }
 
                     System.out.println(tühik);
-
-
-                    //test loop
-                    /*while (!diiler.flush().contains(true)) {
-                        diiler.käed();
-                        diiler.resetAll();
-                        diiler.alustaRaundi(4);
-                        diiler.lisaLauale(5);
-                        for (int i = 0; i < 4; i++) {
-                            System.out.println(diiler.käedLauaga(i) + "\n");
-                        }
-                        System.out.println(diiler.flush());
-                    } */
-
                     break;
                 case 3:
                     System.out.println("Aitäh, Mängige jälle!");

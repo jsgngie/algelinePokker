@@ -85,7 +85,7 @@ public class Diiler {
             Kaart tempKaart = laualeTulnudKaardid.get(i);
             temp.add(tempKaart);
         }
-        //Collections.sort(temp);
+        Collections.sort(temp);
         return temp;
     }
 
@@ -230,4 +230,154 @@ public class Diiler {
         }
         return väärtused;
     }
+    // tagastab mängijate suurimate kaartide tugevused. Saab kasutada kickerina.
+    public List<Integer> highCard() {
+        List<Integer> suurimad = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            Collections.sort(temp);
+            suurimad.add(temp.get(temp.size()-1).getTugevus());
+        }
+        return suurimad;
+    }
+
+    public List<Boolean> fullHouse() {
+        List<Boolean> väärtused = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            if (this.threeOfAKind().get(i)) {
+                //eemaldan kolmiku
+                for (int j = 0; j < temp.size()-3; j++) {
+                    if (temp.get(j).getTugevus() == temp.get(j+1).getTugevus() &
+                    temp.get(j+1).getTugevus() == temp.get(j+2).getTugevus()) {
+                        for (int k = 0; k < 3; k++) {
+                            temp.remove(j);
+                        }
+                        break;
+                    }
+                }
+                if(this.twoPair().get(i)) {
+                    väärtused.add(true);
+                } else { väärtused.add(false);}
+            } else {väärtused.add(false);}
+        }
+        return väärtused;
+    }
+    private List<Kaart> eemaldaErinevadAbi(List<Kaart> temp) {
+        HashMap<String, Integer> mastid = new HashMap<>();
+        mastid.put("ärtu", 0);
+        mastid.put("ruutu", 0);
+        mastid.put("risti", 0);
+        mastid.put("poti", 0);
+        for (int i = 0; i < temp.size(); i++) {
+            mastid.put(temp.get(i).getMast(), mastid.get(temp.get(i).getMast()) + 1);
+        }
+        if (mastid.get("ärtu") >= 5) {
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < temp.size(); i++) {
+                    if (!temp.get(i).getMast().equals("ärtu")) {
+                        temp.remove(i);
+                    }
+                }
+            }
+            return temp;
+        }
+        else if (mastid.get("risti") >= 5) {
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < temp.size(); i++) {
+                    if (!temp.get(i).getMast().equals("risti")) {
+                        temp.remove(i);
+                    }
+                }
+            }
+            return temp;
+        }
+        else if (mastid.get("poti") >= 5) {
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < temp.size(); i++) {
+                    if (!temp.get(i).getMast().equals("poti")) {
+                        temp.remove(i);
+                    }
+                }
+            }
+            return temp;
+        }
+        else if (mastid.get("ruutu") >= 5) {
+            for (int j = 0; j < 2; j++) {
+                for (int i = 0; i < temp.size(); i++) {
+                    if (!temp.get(i).getMast().equals("ruutu")) {
+                        temp.remove(i);
+                    }
+                }
+            }
+            return temp;
+        }
+        return null;
+    }
+    public List<Boolean> straightFlush() {
+        List<Boolean> väärtused = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            // kontrollin kas on yldse mõtet jamada
+            if (this.straight().get(i) & this.flush().get(i)) {
+                //kontrollin kas eemaldades kõik peale flushi on veel viis kaarti
+                if (this.eemaldaErinevadAbi(temp) == null) {
+                    System.out.println("ERROR01 midagi läks nihu.");
+                } else {
+                    if(this.eemaldaErinevadAbi(temp).size()>= 5) {
+                        //kui on alles üle nelja kaardi.
+                        //eemaldan allesjäänud duublid (kui neid on).
+                        temp = this.eemaldaDuublid(temp);
+                        if (temp.size()>=5) {
+                            //lõpuks kontrollin kas allesjäänud kaardid on õiges järjestuses.
+                            for (int j = 0; j < temp.size()-1; j++) {
+                                if (temp.get(j).getTugevus() == temp.get(j+1).getTugevus()-1) {
+                                    if (j == temp.size()-2) {
+                                        väärtused.add(true);
+                                        break;
+                                    }
+                                    continue;
+                                }
+                                väärtused.add(false);
+                                break;
+                            }
+                        } else {väärtused.add(false);}
+                    } else {väärtused.add(false);}
+                }
+            } else { väärtused.add(false);}
+        }
+        return väärtused;
+    }
+
+    public List<Boolean> royalStraightFlush() {
+        List<Boolean> väärtused = new ArrayList<>();
+        for (int i = 0; i < this.kätes.size(); i++) {
+            List<Kaart> temp = this.käedLauaga(i);
+            //kontrollin kas on on flush ja straight.
+            if (this.straightFlush().get(i)) {
+                //kui on siis eemaldan kõik kaardid mis ei ole straighti mastist, ning
+                //eemaldan kõik duublid.
+                temp = this.eemaldaErinevadAbi(temp);
+                temp = this.eemaldaDuublid(temp);
+                List<Integer> tugevused = new ArrayList<>();
+                for (int j = 0; j < temp.size(); j++) {
+                    tugevused.add(temp.get(j).getTugevus());
+                }
+                //kui on vähem kui vajaminev arv kaarte katkestan.
+                if (temp.size() < 5) {
+                    väärtused.add(false);
+                    continue;
+                } else {
+                    //kontrollin kas suurim kaart on äss ja kas ta on ikka tempis.
+                    if (this.highCard().get(i) == 14 & tugevused.contains(14)) {
+                        väärtused.add(true);
+                    } else {
+                        väärtused.add(false);
+                    }
+                }
+            } else {väärtused.add(false);}
+        }
+        return väärtused;
+    }
 }
+
