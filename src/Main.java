@@ -17,6 +17,18 @@ public class Main {
     panustamine
     */
 
+    /* reglid
+     * mängu võitmine
+     * mängu võidab see kellel on kõige tugevam käsi käes
+     * käte tugevused on tegevaimast nõrgemani on järgmised
+     * https://et.wikipedia.org/wiki/Pokkerik%C3%A4te_tugevusj%C3%A4rjestus
+     * //Kuninglik mastirida (Royal Straight Flush)  vaja lisada
+     * //Mastirida (Straight Flush) vaja lisada
+     * //Maja (Full House) vaja lisada
+     * // Kõrge kaart vaja lisada
+     * panustamine // lisab hiljem
+     */
+
     /*
     (done)    Programm käsitleb mingit (inimlikku) tegevust, näiteks mängimist
     (done)    Programm peab kasutajalt midagi küsima (võib-olla ka korduvalt)
@@ -29,27 +41,31 @@ public class Main {
     (done)    Kasutajaga suhtlemine peaks olema väga elementaarselt kujundatud. Vältida (veel) graafilist kasutajaliidest.
             Ekraanile kuvatav info (ka näiteks mänguseis) võib olla tekstiridadena (System.out.println).
      */
-    public static void main(String[] args) {
-        Kaardipakk kaardipakk = new Kaardipakk();
-        kaardipakk.genereeriTavaPakk();
-        Diiler diiler = new Diiler(kaardipakk);
-        diiler.alustaRaundi(4);
-        diiler.käed();
-        diiler.lisaLauale(5);
-        System.out.println(diiler.flush());
 
-        //test loop
-        while (!diiler.flush().contains(true)) {
-            diiler.käed();
-            diiler.resetAll();
-            diiler.alustaRaundi(4);
-            diiler.lisaLauale(5);
-            for (int i = 0; i < 4; i++) {
-                System.out.println(diiler.käedLauaga(i) + "\n");
+    public static void väljastaVõitja(List<Boolean> võitjad) {
+        System.out.println(võitjad);
+        int võitjateArv = 0;
+        List<Integer> võitjateIndex = new ArrayList<>();
+        for (int i = 0; i < võitjad.size(); i++) {
+            if (võitjad.get(i)) {
+                võitjateIndex.add(i);
+                võitjateArv++;
             }
-            System.out.println(diiler.flush());
         }
 
+        if (võitjateArv > 1) {
+            System.out.println("Mäng jäi viiki mängijate poolt: ");
+            for (int i = 0; i < võitjateArv; i++) {
+                System.out.println(võitjateIndex.get(i));
+            }
+            System.out.println("viigi põhjus: ");
+        } else {
+            System.out.println("Mängu võitis: " + võitjateIndex.get(0));
+            System.out.println("Võidu põhjus: ");
+        }
+    }
+
+    public static void main(String[] args) {
         String tühik = "----------------\n";
 
         //mängimise osa
@@ -69,18 +85,6 @@ public class Main {
                 case 1:
                     System.out.println("Mängu reeglid");
                     System.out.println("");
-                    /*
-                    * mängu võitmine
-                    * mängu võidab see kellel on kõige tugevam käsi käes
-                    * käte tugevused on tegevaimast nõrgemani on järgmised
-                    * https://et.wikipedia.org/wiki/Pokkerik%C3%A4te_tugevusj%C3%A4rjestus
-                    * //Kuninglik mastirida (Royal Straight Flush)  vaja lisada
-                    * //Mastirida (Straight Flush) vaja lisada
-                    * //Maja (Full House) vaja lisada
-                    *   Üks paar (One Pair)
-                    * // Kõrge kaart vaja lisada
-                    * panustamine // lisab hiljem
-                    */
                     System.out.println("1. mängu võitmine");
                     //System.out.println("2. panustamine");
                     System.out.println("3. tagasi\n" + tühik);
@@ -137,6 +141,7 @@ public class Main {
                                         System.out.println("tagasiminekuks sisestage suvaline number: ");
                                         int arv5 = scan.nextInt();
                                         break;
+                                    //Üks paar (One Pair)
                                     case 6:
                                         System.out.println("Üks paar\n");
                                         System.out.println("Kaks samase tugevusega kaarti");
@@ -153,23 +158,71 @@ public class Main {
                         }
 
                     break;
+
+                //MÄNGU CASE
+
                 case 2:
                     //lisada mängu osa
-
-                    diiler.resetAll();
+                    Kaardipakk kaardipakk = new Kaardipakk();
+                    kaardipakk.genereeriTavaPakk();
+                    Diiler diiler = new Diiler(kaardipakk);
                     diiler.alustaRaundi(4);
                     diiler.käed();
                     diiler.lisaLauale(5);
-                    System.out.println(diiler.flush());
+
+                    //hakkab järjest võidu olukordi vaatama
+                    if (diiler.fourOfAKind().contains(true)) {
+                        List<Boolean> võitjad = diiler.fourOfAKind();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Nelik");
+
+                    } else if (diiler.flush().contains(true)) {
+                        List<Boolean> võitjad = diiler.flush();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Mast");
+
+                    } else if (diiler.straight().contains(true)) {
+                        List<Boolean> võitjad = diiler.straight();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Rida");
+
+                    } else if (diiler.threeOfAKind().contains(true)) {
+                        List<Boolean> võitjad = diiler.threeOfAKind();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Kolmik");
+
+                    } else if (diiler.twoPair().contains(true)) {
+                        List<Boolean> võitjad = diiler.twoPair();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Kaks paar");
+
+                    } else if (diiler.pair().contains(true)) {
+                        List<Boolean> võitjad = diiler.pair();
+                        väljastaVõitja(võitjad);
+                        System.out.println("üks paar");
+                    }
+
+                    System.out.println(tühik);
+
+
+                    //test loop
+                    /*while (!diiler.flush().contains(true)) {
+                        diiler.käed();
+                        diiler.resetAll();
+                        diiler.alustaRaundi(4);
+                        diiler.lisaLauale(5);
+                        for (int i = 0; i < 4; i++) {
+                            System.out.println(diiler.käedLauaga(i) + "\n");
+                        }
+                        System.out.println(diiler.flush());
+                    } */
+
                     break;
                 case 3:
                     System.out.println("Aitäh, Mängige jälle!");
                     break mäng;
 
                     }
-
-
-
             }
         }
 }

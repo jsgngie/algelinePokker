@@ -23,6 +23,10 @@ public class Kaardipakk {
         return pakk.indexOf(o);
     }
 
+    //kaardi eemalda pakist
+    public void eemalda(Kaart kaart) {
+        pakk.remove(kaart);
+    }
     public List<Kaart> getPakk() {
         return pakk;
     }
