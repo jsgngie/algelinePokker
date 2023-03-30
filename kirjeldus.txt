@@ -9,20 +9,23 @@
         Main - kasutajaga suhtlemise osa
         Kaart - kaardi objekti loomise klass ja sellelt andmete saamine
         Kaardipakk - loob listi mis kooseb Kaardi objektist
-        Diiler - 
+        Diiler - erinevad meetodid käte kombinatsioonide kontrollimiseks
         
     projekti tegemise protsessi kirjeldus (erinevad etapid ja rühmaliikmete osalemine neis);
-        protsessi plaan sai alguses kirja pandud ja siis töötasime nende kallal kui aega oli (mida polnud palju)
+        panime idee paika ja hakkasime ühest otsast minema.
         
     iga rühmaliikme panus (sh tehtud klassid/meetodid) ja ajakulu (orienteeruvalt);
         Matias - kaart, kaardipakk klassid, Maini kasutaja küsimused
                - ajakulu 6-9h
-               
+        Joosep - diiler, natuke main classi.
+               - ajakulu 10
     tegemise mured (nt millistest teadmistest/oskustest tundsite projekti tegemisel puudust);
         alguses kui kaardipakki klassi teha ei teadnud kuidas objecte omavahel võrrelda
     
     hinnang oma töö lõpptulemusele (millega saite hästi hakkama ja mis vajab arendamist);
-        sai lisatud pokkeri võidu viisid, vaja oleks teha panustamise süsteem
+         algne pokkeri süsteem töötab korrektselt. Järgmises rühmatöö osas on plaanis lisada
+        gui ja bettimise süsteem.
+        
     
     selgitus ja/või näited, kuidas programmi osi eraldi ja programmi tervikuna testisite ehk kuidas veendusite, et programm töötab korrektselt.
-        programmi osi testisime Main klasiis
+        programmi osi testisime Main klassis loopi abil, millega kontrollisime kas midagi on eeldatud käitumisest erinev.
