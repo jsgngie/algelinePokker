@@ -77,9 +77,9 @@ public class Main {
                 case 1:
                     System.out.println("Mängu reeglid");
                     System.out.println("");
-                    System.out.println("1. mängu võitmine");
+                    System.out.println("1. Mängu võitmine");
                     //System.out.println("2. panustamine");
-                    System.out.println("3. tagasi\n" + tühik);
+                    System.out.println("3. Tagasi\n" + tühik);
                     System.out.println(valik);
                     int reegel = scan.nextInt();
                     System.out.println(tühik);
@@ -87,9 +87,9 @@ public class Main {
                         case 1:
                             selgitused:
                             while (true) {
-                                System.out.println("mängu võitmine\n\n" +
-                                        "mängu võidab see kellel on kõige tugevam käsi käes\n" +
-                                        "käte tugevused on tegevaimast nõrgemani on järgmised");
+                                System.out.println("Mängu võitmine\n\n" +
+                                        "Mängu võidab see kellel on kõige tugevam käsi\n" +
+                                        "käte tugevused on tugevaimast nõrgemani on järgmised");
                                 System.out.println("Käte selgitused\n");
                                 System.out.println(
                                         "1. Kuninglik mastirida\n" +
@@ -228,6 +228,7 @@ public class Main {
                         }
                         System.out.println(diiler.royalStraightFlush());
                     } */
+
                     if (diiler.royalStraightFlush().contains(true)) {
                         List<Boolean> võitjad = diiler.royalStraightFlush();
                         väljastaVõitja(võitjad);
