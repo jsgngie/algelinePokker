@@ -1,5 +1,6 @@
     autorite nimed;
       Matias Jürgenson, Joosep Suuder
+	https://github.com/jsgngie/OOP
       
     projekti põhjalik kirjeldus, kus on kirjas programmi eesmärk ja selgitus programmi üldisest tööst, vajadusel lühike kasutusjuhis;
        eesmärk - tutvustada kasutajale pokkerit
