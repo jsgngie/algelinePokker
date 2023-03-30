@@ -18,10 +18,6 @@ public class Main {
      * mängu võidab see kellel on kõige tugevam käsi käes
      * käte tugevused on tegevaimast nõrgemani on järgmised
      * https://et.wikipedia.org/wiki/Pokkerik%C3%A4te_tugevusj%C3%A4rjestus
-     * //Kuninglik mastirida (Royal Straight Flush)  vaja lisada
-     * //Mastirida (Straight Flush) vaja lisada
-     * //Maja (Full House) vaja lisada
-     * // Kõrge kaart vaja lisada
      * panustamine // lisab hiljem
      */
 
@@ -91,22 +87,66 @@ public class Main {
                         case 1:
                             selgitused:
                             while (true) {
-                                System.out.println("võidu selgitused\n");
-                                System.out.println("1. Nelik\n2. Mast\n3. Rida\n4. Kolmik\n5. Kaks paari\n6. Üks paar\n7. tagasi\n" + tühik);
+                                System.out.println("mängu võitmine\n\n" +
+                                        "mängu võidab see kellel on kõige tugevam käsi käes\n" +
+                                        "käte tugevused on tegevaimast nõrgemani on järgmised");
+                                System.out.println("Käte selgitused\n");
+                                System.out.println(
+                                        "1. Kuninglik mastirida\n" +
+                                        "2. Mastirida\n" +
+                                        "3. Nelik\n" +
+                                        "4. Maja\n" +
+                                        "5. Mast\n" +
+                                        "6. Rida\n" +
+                                        "7. Kolmik\n" +
+                                        "8. Kaks paari\n" +
+                                        "9. Üks paar\n" +
+                                        "10. Kõrge kaart\n" +
+                                        "11. tagasi\n" +
+                                        tühik);
                                 System.out.println(valik);
                                 int selgitus = scan.nextInt();
                                 System.out.println(tühik);
                                 switch (selgitus) {
-                                    //Nelik (Four Of A Kind)
+
+                                    //Kuninglik mastirida (Royal Straight Flush)
                                     case 1:
-                                        System.out.println("Nelik\n");
-                                        System.out.println("Neli samase tugevusega kaarti");
+                                        System.out.println("Kuninglik mastirida\n");
+                                        System.out.println("Ühest mastist äss, kuningas, emand, poiss ja kümme");
                                         System.out.println(tühik);
                                         System.out.println("tagasiminekuks sisestage suvaline number: ");
                                         int arv = scan.nextInt();
                                         break;
-                                    //Mast (Flush)
+
+                                    //Mastirida (Straight Flush)
                                     case 2:
+                                        System.out.println("Mastirida\n");
+                                        System.out.println("Mastirea moodustavad viis järjestikust ühest mastist kaarti");
+                                        System.out.println(tühik);
+                                        System.out.println("tagasiminekuks sisestage suvaline number: ");
+                                        int arv10 = scan.nextInt();
+                                        break;
+
+                                    //Nelik (Four Of A Kind)
+                                    case 3:
+                                        System.out.println("Nelik\n");
+                                        System.out.println("Neli samase tugevusega kaarti");
+                                        System.out.println(tühik);
+                                        System.out.println("tagasiminekuks sisestage suvaline number: ");
+                                        int arv11 = scan.nextInt();
+                                        break;
+
+                                    //Maja (Full House)
+                                    case 4:
+                                        System.out.println("Maja\n");
+                                        System.out.println("Maja koosneb kolmikust ja paarist");
+                                        System.out.println(tühik);
+                                        System.out.println("tagasiminekuks sisestage suvaline number: ");
+                                        int arv13 = scan.nextInt();
+                                        break;
+
+                                    //Mast (Flush)
+                                    case 5:
                                         System.out.println("Mast\n");
                                         System.out.println("Viis ühest mastist kaarti");
                                         System.out.println(tühik);
@@ -114,7 +154,7 @@ public class Main {
                                         int arv2 = scan.nextInt();
                                         break;
                                     //Rida (Straight)
-                                    case 3:
+                                    case 6:
                                         System.out.println("Rida\n");
                                         System.out.println("Viis järjestikust kaarti. Näiteks kolm, neli, viis, kuus ja seitse");
                                         System.out.println(tühik);
@@ -122,7 +162,7 @@ public class Main {
                                         int arv3 = scan.nextInt();
                                         break;
                                     //Kolmik (Three Of A Kind)
-                                    case 4:
+                                    case 7:
                                         System.out.println("Kolmik\n");
                                         System.out.println("Kolm samase tugevusega kaarti");
                                         System.out.println(tühik);
@@ -130,7 +170,7 @@ public class Main {
                                         int arv4 = scan.nextInt();
                                         break;
                                     //Kaks paari (Two Pair)
-                                    case 5:
+                                    case 8:
                                         System.out.println("Kaks paari\n");
                                         System.out.println("Tugevaimad kaks võimalikku paari oleksid äss, äss ja kuningas, kuningas");
                                         System.out.println(tühik);
@@ -138,14 +178,24 @@ public class Main {
                                         int arv5 = scan.nextInt();
                                         break;
                                     //Üks paar (One Pair)
-                                    case 6:
+                                    case 9:
                                         System.out.println("Üks paar\n");
                                         System.out.println("Kaks samase tugevusega kaarti");
                                         System.out.println(tühik);
                                         System.out.println("tagasiminekuks sisestage suvaline number: ");
                                         int arv6 = scan.nextInt();
                                         break;
-                                    case 7:
+
+                                    //Kõrge kaart (High card)
+                                    case 10:
+                                        System.out.println("Kõrge kaart\n");
+                                        System.out.println("Kõrgeim käesolev kaart");
+                                        System.out.println(tühik);
+                                        System.out.println("tagasiminekuks sisestage suvaline number: ");
+                                        int arv17 = scan.nextInt();
+                                        break;
+
+                                    case 11:
                                         break selgitused;
                                 }
                             }
@@ -167,6 +217,7 @@ public class Main {
                     diiler.lisaLauale(5);
 
                     /* test tsükkel ära eemalda pls
+                    //oke
                     while (!diiler.royalStraightFlush().contains(true)) {
                         diiler.käed();
                         diiler.resetAll();
@@ -177,13 +228,13 @@ public class Main {
                         }
                         System.out.println(diiler.royalStraightFlush());
                     } */
-                    if (diiler.fourOfAKind().contains(true)) {
-                        List<Boolean> võitjad = diiler.fourOfAKind();
+                    if (diiler.royalStraightFlush().contains(true)) {
+                        List<Boolean> võitjad = diiler.royalStraightFlush();
                         väljastaVõitja(võitjad);
                         System.out.println("Kuninglik mastirida");
 
                     } else if (diiler.straightFlush().contains(true)) {
-                        List<Boolean> võitjad = diiler.fourOfAKind();
+                        List<Boolean> võitjad = diiler.straightFlush();
                         väljastaVõitja(võitjad);
                         System.out.println("Mastirida");
 
@@ -221,7 +272,12 @@ public class Main {
                         List<Boolean> võitjad = diiler.pair();
                         väljastaVõitja(võitjad);
                         System.out.println("üks paar");
-                    }
+
+                    } /*else if (diiler.highCard().contains(true)) {
+                        List<Boolean> võitjad = diiler.highCard();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Kõrge kaart");
+                    } */
 
                     System.out.println(tühik);
                     break;
