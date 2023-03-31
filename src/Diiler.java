@@ -2,17 +2,22 @@ import java.util.*;
 
 public class Diiler {
     private List<Kaart[]> kätes = new ArrayList<>();
-
+    private List<Integer> raha = new ArrayList<>();
     private Kaardipakk kaardipakk;
     private List<Kaart> laual = new ArrayList<>();
+    private int laualRaha;
+
+    private boolean[] mängus;
 
     Diiler(Kaardipakk kaardipakk) {
         this.kaardipakk = kaardipakk;
+        this.laualRaha = 0;
     }
 
     public List<Kaart[]> alustaRaundi(int mängijateArv) {
         List<Kaart> pakk = kaardipakk.getPakk();
         Random random = new Random();
+        this.mängus = new boolean[mängijateArv];
         // List laud on kahemõõtmeline, kus iga alamjärjend tähistab ühte mängijat.
         // Iga mängija saab kaks kaarti.
         for (int i = 0; i < mängijateArv; i++) {
@@ -27,6 +32,16 @@ public class Diiler {
             }
             this.kätes.add(mängija);
         }
+        //iga mängija saab mängu alguses 1000 ühikut raha.
+        for (int i = 0; i < mängijateArv; i++) {
+            this.raha.add(2000);
+        }
+
+        //lisab iga mängija mängu
+
+        for (int i = 0; i < mängijateArv; i++) {
+            this.mängus[i] = true;
+        }
         //tagastab listi kõigi mängijatega.
         return kätes;
     }
@@ -34,6 +49,10 @@ public class Diiler {
     public void resetAll() {
         this.kätes.clear();
         this.laual.clear();
+    }
+
+    public void fold(int mängija) {
+        this.mängus[mängija-1] = false;
     }
 
     public void lisaLauale(int mitu) {
@@ -55,9 +74,32 @@ public class Diiler {
         return laual;
     }
 
+    public void getMängijaKäsi() {
+        System.out.print(this.kätes.get(0)[0] + ", " + this.kätes.get(0)[1] + "\n");
+    }
+
+    public List<Integer> getRaha() {
+        //tagastab mängijate raha.
+        return raha;
+    }
+
+    public int getLaualRaha() {
+        return laualRaha;
+    }
+
+    public void lisaLaualeRaha(int raha) {
+        this.laualRaha += raha;
+    }
+
+    public void panustaRaha(int mängija, int panus) {
+        this.lisaLaualeRaha(panus);
+        this.raha.set(mängija-1, this.raha.get(mängija-1)-panus);
+    }
+
     public void käed() {
         //väljastab kõikide mängijate käed
-        for (int i = 0; i < kätes.size(); i++) {
+        System.out.println("Sinu käsi on: " + Arrays.toString(kätes.get(0)));
+        for (int i = 1; i < kätes.size(); i++) {
             System.out.println(i + 1 + ". mängija käes on " + Arrays.toString(kätes.get(i)));
         }
     }
@@ -96,6 +138,10 @@ public class Diiler {
         List<Boolean> väärtused = new ArrayList<>();
 
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             Collections.sort(temp);
             //kontrollin kas on kaks ühesugust kaarti
@@ -118,6 +164,10 @@ public class Diiler {
         List<Boolean> kasOnÜks = this.pair();
         //kontrollin kas on kaks paari
         for (int i = 0; i < kasOnÜks.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             if (!kasOnÜks.get(i)) {
                 väärtused.add(false);
             } else {
@@ -150,6 +200,10 @@ public class Diiler {
     public List<Boolean>  threeOfAKind() {
         List<Boolean> väärtused = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             for (int j = 0; j < temp.size()-2; j++) {
                 if(temp.get(j).getTugevus() == temp.get(j+1).getTugevus() & temp.get(j+1).getTugevus() == temp.get(j+2).getTugevus()) {
@@ -167,6 +221,10 @@ public class Diiler {
     public List<Boolean> fourOfAKind() {
         List<Boolean> väärtused = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             for (int j = 0; j < temp.size()-3; j++) {
                 if(temp.get(j).getTugevus() == temp.get(j+1).getTugevus()
@@ -187,6 +245,10 @@ public class Diiler {
     public List<Boolean> straight() {
         List<Boolean> väärtused = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             temp = this.eemaldaDuublid(temp);
             if (temp.size()<5) {väärtused.add(false); continue;}
@@ -210,6 +272,10 @@ public class Diiler {
         List<Boolean> väärtused = new ArrayList<>();
         HashMap<String, Integer> mastid = new HashMap<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             mastid.put("ärtu", 0);
             mastid.put("ruutu", 0);
             mastid.put("risti", 0);
@@ -234,6 +300,10 @@ public class Diiler {
     public List<Integer> highCard() {
         List<Integer> suurimad = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                suurimad.add(0);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             Collections.sort(temp);
             suurimad.add(temp.get(temp.size()-1).getTugevus());
@@ -244,6 +314,10 @@ public class Diiler {
     public List<Boolean> fullHouse() {
         List<Boolean> väärtused = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             if (this.threeOfAKind().get(i)) {
                 //eemaldan kolmiku
@@ -317,6 +391,10 @@ public class Diiler {
     public List<Boolean> straightFlush() {
         List<Boolean> väärtused = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             // kontrollin kas on yldse mõtet jamada
             if (this.straight().get(i) & this.flush().get(i)) {
@@ -352,6 +430,10 @@ public class Diiler {
     public List<Boolean> royalStraightFlush() {
         List<Boolean> väärtused = new ArrayList<>();
         for (int i = 0; i < this.kätes.size(); i++) {
+            if (!this.mängus[i]) {
+                väärtused.add(false);
+                continue;
+            }
             List<Kaart> temp = this.käedLauaga(i);
             //kontrollin kas on on flush ja straight.
             if (this.straightFlush().get(i)) {

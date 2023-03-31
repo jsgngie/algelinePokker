@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     /* kui tulevikus edasi teha
@@ -56,6 +53,53 @@ public class Main {
             System.out.println("Võidu põhjus: ");
         }
     }
+    public static void kontrollija(Diiler diiler) {
+        if (diiler.royalStraightFlush().contains(true)) {
+            List<Boolean> võitjad = diiler.royalStraightFlush();
+            väljastaVõitja(võitjad);
+            System.out.println("Kuninglik mastirida");
+
+        } else if (diiler.straightFlush().contains(true)) {
+            List<Boolean> võitjad = diiler.straightFlush();
+            väljastaVõitja(võitjad);
+            System.out.println("Mastirida");
+
+        } else if (diiler.fourOfAKind().contains(true)) {
+            List<Boolean> võitjad = diiler.fourOfAKind();
+            väljastaVõitja(võitjad);
+            System.out.println("Nelik");
+
+        } else if (diiler.fullHouse().contains(true)) {
+            List<Boolean> võitjad = diiler.fullHouse();
+            väljastaVõitja(võitjad);
+            System.out.println("Maja");
+
+        } else if (diiler.flush().contains(true)) {
+            List<Boolean> võitjad = diiler.flush();
+            väljastaVõitja(võitjad);
+            System.out.println("Mast");
+
+        } else if (diiler.straight().contains(true)) {
+            List<Boolean> võitjad = diiler.straight();
+            väljastaVõitja(võitjad);
+            System.out.println("Rida");
+
+        } else if (diiler.threeOfAKind().contains(true)) {
+            List<Boolean> võitjad = diiler.threeOfAKind();
+            väljastaVõitja(võitjad);
+            System.out.println("Kolmik");
+
+        } else if (diiler.twoPair().contains(true)) {
+            List<Boolean> võitjad = diiler.twoPair();
+            väljastaVõitja(võitjad);
+            System.out.println("Kaks paar");
+
+        } else if (diiler.pair().contains(true)) {
+            List<Boolean> võitjad = diiler.pair();
+            väljastaVõitja(võitjad);
+            System.out.println("üks paar");
+        }
+    }
 
     public static void main(String[] args) {
         String tühik = "----------------\n";
@@ -65,7 +109,7 @@ public class Main {
 
         System.out.println("Lihtne Pokker\n" + tühik);
         mäng:
-        while (true){
+        while (true) {
             String valik = "Valiku tegemiseks sisestage number: ";
 
             System.out.println("1. Mängu reeglid\n2. Alusta mängimist\n3. Lahku\n" + tühik);
@@ -93,17 +137,17 @@ public class Main {
                                 System.out.println("Käte selgitused\n");
                                 System.out.println(
                                         "1. Kuninglik mastirida\n" +
-                                        "2. Mastirida\n" +
-                                        "3. Nelik\n" +
-                                        "4. Maja\n" +
-                                        "5. Mast\n" +
-                                        "6. Rida\n" +
-                                        "7. Kolmik\n" +
-                                        "8. Kaks paari\n" +
-                                        "9. Üks paar\n" +
-                                        "10. Kõrge kaart\n" +
-                                        "11. tagasi\n" +
-                                        tühik);
+                                                "2. Mastirida\n" +
+                                                "3. Nelik\n" +
+                                                "4. Maja\n" +
+                                                "5. Mast\n" +
+                                                "6. Rida\n" +
+                                                "7. Kolmik\n" +
+                                                "8. Kaks paari\n" +
+                                                "9. Üks paar\n" +
+                                                "10. Kõrge kaart\n" +
+                                                "11. tagasi\n" +
+                                                tühik);
                                 System.out.println(valik);
                                 int selgitus = scan.nextInt();
                                 System.out.println(tühik);
@@ -209,14 +253,93 @@ public class Main {
 
                 case 2:
                     //lisada mängu osa
+                    Random random = new Random();
+                    int mängijateArv = 0;
+                    while (mängijateArv < 4) {
+                        System.out.print("Sisesta mängijate arv: ");
+                        mängijateArv = scan.nextInt();
+                    }
                     Kaardipakk kaardipakk = new Kaardipakk();
                     kaardipakk.genereeriTavaPakk();
                     Diiler diiler = new Diiler(kaardipakk);
-                    diiler.alustaRaundi(4);
-                    diiler.käed();
-                    diiler.lisaLauale(5);
+                    diiler.alustaRaundi(mängijateArv);
+                    //mäng
+                    //hetkel teen nii, et iga arvuti mängija betib random amounti.
+                    System.out.println("\nLaua miinimum on 200.");
+                    int blind = 0;
+                    System.out.println("Small blind: " + blind + ". mängija, panus: 100");
+                    diiler.panustaRaha(1,100);
+                    System.out.println("Big blind: " + (blind+1) + ".mängija, panus: 200");
+                    diiler.panustaRaha(2, 200);
+                    System.out.println();
+                    int viimanePanus = 200;
+                    //esimese raundi panused
+                    for (int i = 3; i <= mängijateArv; i++) {
+                        int foldBetRaise = random.nextInt(3);
+                        //raise
+                        if (foldBetRaise == 0) {
+                            if (i == 3) {
+                                int panus = random.nextInt((200+viimanePanus - 200) + 1) + 200;
+                                diiler.panustaRaha(i, panus);
+                                System.out.println(i + ". mängija tõstis panust.");
+                                System.out.println(i + ". mängija panustas: " + panus);
+                                viimanePanus = panus;
+                                continue;
+                            }
+                            int panus = random.nextInt((200)+1) + viimanePanus;
+                            diiler.panustaRaha(i, panus);
+                            System.out.println(i + ". mängija tõstis panust.");
+                            System.out.println(i + ". mängija panustas: " + panus);
+                            viimanePanus = panus;
+                        }
+                        //call
+                        if (foldBetRaise == 1) {
+                            diiler.panustaRaha(i, viimanePanus);
+                            System.out.println(i + ". mängija jätkas panust.");
+                            System.out.println(i + ". mängija panustas: " + viimanePanus);
+                        }
+                        //fold
+                        if (foldBetRaise == 2) {
+                            diiler.fold(i);
+                            System.out.println(i + ". mängija pani foldi.");
+                        }
 
-                    /* test tsükkel ära eemalda pls
+                    }
+                    System.out.print("\nSinu käsi: ");
+                    diiler.getMängijaKäsi();
+                    System.out.println("Sinu raha: " + diiler.getRaha().get(0));
+
+                    System.out.println("""
+                               Mida soovid teha:\s
+                               1 - fold
+                               2 - mängi edasi""");
+                    int foldCallBet = scan.nextInt();
+
+                    if (foldCallBet == 1) {
+                        diiler.fold(1);
+                        // siit edasi tuleb järgmised raundid automaatselt, ilma mängijata
+                    } else if (foldCallBet == 2) {
+                        diiler.lisaLauale(3);
+                        // siit edasi tuleb raundid koos mängijaga.
+                    }
+                    /*else if (diiler.highCard().contains(true)) {
+                        List<Boolean> võitjad = diiler.highCard();
+                        väljastaVõitja(võitjad);
+                        System.out.println("Kõrge kaart");
+                    } */
+
+                System.out.println(tühik);
+                break;
+                    case 3:
+                    System.out.println("Aitäh, Mängige jälle!");
+                    break mäng;
+
+                    }
+            }
+        }
+}
+
+/* test tsükkel ära eemalda pls
                     //oke
                     while (!diiler.royalStraightFlush().contains(true)) {
                         diiler.käed();
@@ -228,65 +351,3 @@ public class Main {
                         }
                         System.out.println(diiler.royalStraightFlush());
                     } */
-
-                    if (diiler.royalStraightFlush().contains(true)) {
-                        List<Boolean> võitjad = diiler.royalStraightFlush();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Kuninglik mastirida");
-
-                    } else if (diiler.straightFlush().contains(true)) {
-                        List<Boolean> võitjad = diiler.straightFlush();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Mastirida");
-
-                    } else if (diiler.fourOfAKind().contains(true)) {
-                        List<Boolean> võitjad = diiler.fourOfAKind();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Nelik");
-
-                    } else if (diiler.fullHouse().contains(true)) {
-                        List<Boolean> võitjad = diiler.fullHouse();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Maja");
-
-                    } else if (diiler.flush().contains(true)) {
-                        List<Boolean> võitjad = diiler.flush();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Mast");
-
-                    } else if (diiler.straight().contains(true)) {
-                        List<Boolean> võitjad = diiler.straight();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Rida");
-
-                    } else if (diiler.threeOfAKind().contains(true)) {
-                        List<Boolean> võitjad = diiler.threeOfAKind();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Kolmik");
-
-                    } else if (diiler.twoPair().contains(true)) {
-                        List<Boolean> võitjad = diiler.twoPair();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Kaks paar");
-
-                    } else if (diiler.pair().contains(true)) {
-                        List<Boolean> võitjad = diiler.pair();
-                        väljastaVõitja(võitjad);
-                        System.out.println("üks paar");
-
-                    } /*else if (diiler.highCard().contains(true)) {
-                        List<Boolean> võitjad = diiler.highCard();
-                        väljastaVõitja(võitjad);
-                        System.out.println("Kõrge kaart");
-                    } */
-
-                    System.out.println(tühik);
-                    break;
-                case 3:
-                    System.out.println("Aitäh, Mängige jälle!");
-                    break mäng;
-
-                    }
-            }
-        }
-}
